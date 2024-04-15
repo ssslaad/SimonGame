@@ -38,7 +38,6 @@ $(document).ready(function () {
     }
   
     $(".btn").click(validateInput);
-    $(".btn").touchstart(validateInput);
   
     function validateInput() {
       let currentButton = $(this).attr("id");
