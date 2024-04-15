@@ -1,10 +1,17 @@
 $(document).ready(function () {
     $(document).keydown(function (event) {
-      if (event.key === "A" || (event.key === "a" && level === 0)) {
+      if (event.key === "A" || event.key === "a" && level === 0) {
         setTimeout(nextSequence, 500);
         $("h1").text("Level " + level);
       }
     });
+    $(document).touchstart(function (event) {
+      if(level === 0) {
+        setTimeout(nextSequence, 500);
+        $("h1").text("Level " + level);
+      }
+    });
+
     var gamePattern = [];
     var level = 0;
     var userInputCounter = 0;
@@ -30,21 +37,20 @@ $(document).ready(function () {
       $("h1").text("Level " + level);
     }
   
-    $(".btn").click(function () {
-      let currentButtonClicked = $(this).attr("id");
+    $(".btn").click(validateInput);
+    $(".btn").touchstart(validateInput);
+  
+    function validateInput() {
+      let currentButton = $(this).attr("id");
       // play audio
-      playAudio(currentButtonClicked);
+      playAudio(currentButton);
       // set visuals
-      animatePress(currentButtonClicked);
+      animatePress(currentButton);
       setTimeout(function () {
-        $("#" + currentButtonClicked).removeClass("pressed");
+        $("#" + currentButton).removeClass("pressed");
       }, 100);
   
-      validateInput(currentButtonClicked);
-    });
-  
-    function validateInput(currentButtonClicked) {
-      if (currentButtonClicked === gamePattern[userInputCounter]) {
+      if (currentButton === gamePattern[userInputCounter]) {
         userInputCounter++;
         if (level === userInputCounter) {
           userInputCounter = 0;
@@ -53,7 +59,7 @@ $(document).ready(function () {
       } else {
         //reset the game
         setTimeout(function () {
-          $("h1").text("Game Over, Press key 'A' to Restart");
+          $("h1").text("Game Over, Press key 'A' Or Touch Screen to Restart");
           playAudio("wrong");
           $("body").addClass("game-over");
           gamePattern = [];
