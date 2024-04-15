@@ -5,7 +5,7 @@ $(document).ready(function () {
         $("h1").text("Level " + level);
       }
     });
-    $(document).touchstart(function (event) {
+    $(document).on("touchstart",function (event) {
       if(level === 0) {
         setTimeout(nextSequence, 500);
         $("h1").text("Level " + level);
